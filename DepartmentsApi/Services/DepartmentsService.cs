@@ -28,14 +28,13 @@ namespace DepartmentsApi.Services
                 await departmentRepo.UpdateDepartments(mapper.Map<List<Department>>(departmentsForUpdate));
             }
 
-			var departmentsForCreate = departmentDtos.Where(el => el.DepartmentId <= 0).ToList();
+			var departmentsForCreate = departmentDtos.Where(el => el.DepartmentId == null || el.DepartmentId <= 0 ).ToList();
             if (departmentsForCreate.Count > 0)
             {
 				await departmentRepo.CreateDepartments(mapper.Map<List<Department>>(departmentsForCreate));
 			}
 
-			//ToDo кастомное исключение
-			throw new Exception("Ошибка создания/обновления информации о подразделениях");
+            return await GetDepartmentsFromDb();
 		}
 
 		public async Task<List<DepartmentDto>> GetDepartments()
@@ -46,20 +45,14 @@ namespace DepartmentsApi.Services
                 return mapper.Map<List<DepartmentDto>>(departments);
             }
 
-			departments = await GetDepartmentsFromDb();
-            if (departments.Count > 0)
-            {
-				memoryCache.Set("departments", departments, TimeSpan.FromSeconds(7));
-				return mapper.Map<List<DepartmentDto>>(departments);
-			}
-
-			//ToDo кастомное исключение
-			throw new Exception("Ошибка доступа к информации о подразделениях");
+            return await GetDepartmentsFromDb();
         }
 
-        private async Task<List<Department>> GetDepartmentsFromDb()
+        private async Task<List<DepartmentDto>> GetDepartmentsFromDb()
         {
-            return await departmentRepo.GetDepartmentsAsync();
+			List<Department> departments = await departmentRepo.GetDepartmentsAsync();
+			memoryCache.Set("departments", departments, TimeSpan.FromSeconds(7));
+			return mapper.Map<List<DepartmentDto>>(departments);
 		}
     }
 }
