@@ -18,10 +18,10 @@ namespace DepartmentsApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<DepartmentDto>> GetDepartments()
+        public List<DepartmentDto> GetDepartments()
         {
 
-            return await departmentsService.GetDepartmentsAsync();
+            return departmentsService.GetDepartmentsAsync();
         }
     }
 }

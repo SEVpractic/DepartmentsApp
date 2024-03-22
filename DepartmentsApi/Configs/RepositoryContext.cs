@@ -5,6 +5,7 @@ namespace DepartmentsApi.Configs
 {
     public class RepositoryContext : DbContext
     {
+        //Todo
         //drop table if exists "Departments", "__EFMigrationsHistory"
         public DbSet<Department> Departments { get; set; } = null!;
 

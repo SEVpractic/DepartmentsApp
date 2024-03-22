@@ -1,15 +1,19 @@
-﻿using DepartmentsApi.Repository;
+﻿using DepartmentsApi.Models.Entities;
+using DepartmentsApi.Repository;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DepartmentsApi.Services
 {
     public class DepartmentsStatusChecker : BackgroundService
     {
         private readonly IServiceProvider serviceProvider;
+		private readonly IMemoryCache memoryCache;
 
-        public DepartmentsStatusChecker(IServiceProvider serviceProvider)
+		public DepartmentsStatusChecker(IServiceProvider serviceProvider, IMemoryCache memoryCache)
         {
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-        }
+			this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
+		}
 
         /// <summary>
         /// Метод периодического обновления инфомации о подразделениях
@@ -25,8 +29,11 @@ namespace DepartmentsApi.Services
                         .CreateScope())
                 {
                     IDepartmentRepo departmentRepo = serviceScope.ServiceProvider.GetRequiredService<IDepartmentRepo>();
-                    var test = await departmentRepo.GetDepartmentsAsync();
-                }
+                    List<Department> departments = await departmentRepo.GetDepartmentsAsync();
+
+					//ToDo вынести в конфиг
+					memoryCache.Set("departments", departments, TimeSpan.FromSeconds(7));
+				}
                 
                 //ToDo вынести в конфиг
                 await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken);

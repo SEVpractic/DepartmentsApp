@@ -4,6 +4,6 @@ namespace DepartmentsApi.Services
 {
     public interface IDepartmentsService
     {
-        Task<List<DepartmentDto>> GetDepartmentsAsync();
+        List<DepartmentDto> GetDepartmentsAsync();
     }
 }
