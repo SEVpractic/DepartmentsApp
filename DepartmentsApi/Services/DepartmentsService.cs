@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DepartmentsApi.Models.Dtos;
+using DepartmentsApi.Models.Entities;
 using DepartmentsApi.Repository;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 
 namespace DepartmentsApi.Services
 {
@@ -18,15 +20,46 @@ namespace DepartmentsApi.Services
 			this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
 		}
 
-        public List<DepartmentDto> GetDepartmentsAsync()
+		public async Task<List<DepartmentDto>> CreteOrUpdateAsync(List<DepartmentDto> departmentDtos)
+		{
+            var departmentsForUpdate = departmentDtos.Where(el => el.DepartmentId > 0).ToList();
+            if (departmentsForUpdate.Count > 0)
+            {
+                await departmentRepo.UpdateDepartments(mapper.Map<List<Department>>(departmentsForUpdate));
+            }
+
+			var departmentsForCreate = departmentDtos.Where(el => el.DepartmentId <= 0).ToList();
+            if (departmentsForCreate.Count > 0)
+            {
+				await departmentRepo.CreateDepartments(mapper.Map<List<Department>>(departmentsForCreate));
+			}
+
+			//ToDo кастомное исключение
+			throw new Exception("Ошибка создания/обновления информации о подразделениях");
+		}
+
+		public async Task<List<DepartmentDto>> GetDepartments()
         {
             var test = memoryCache.Get("departments");
-            if (memoryCache.TryGetValue("departments", out var departments))
+            if (memoryCache.TryGetValue("departments", out List<Department> departments))
             {
                 return mapper.Map<List<DepartmentDto>>(departments);
             }
 
-            return new List<DepartmentDto>();
+			departments = await GetDepartmentsFromDb();
+            if (departments.Count > 0)
+            {
+				memoryCache.Set("departments", departments, TimeSpan.FromSeconds(7));
+				return mapper.Map<List<DepartmentDto>>(departments);
+			}
+
+			//ToDo кастомное исключение
+			throw new Exception("Ошибка доступа к информации о подразделениях");
         }
+
+        private async Task<List<Department>> GetDepartmentsFromDb()
+        {
+            return await departmentRepo.GetDepartmentsAsync();
+		}
     }
 }

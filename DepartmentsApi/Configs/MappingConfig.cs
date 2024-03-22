@@ -10,7 +10,7 @@ namespace DepartmentsApi.Configs
         {
             return new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Department, DepartmentDto>();
+                cfg.CreateMap<Department, DepartmentDto>().ReverseMap();
             });
         }
     }

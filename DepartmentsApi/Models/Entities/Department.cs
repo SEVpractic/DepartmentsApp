@@ -16,7 +16,7 @@ namespace DepartmentsApi.Models.Entities
         public string Name { get; set; }
         [Required]
         public bool IsActive { get; set; }
-        public int? ParentId { get; set; }
+        public long? ParentId { get; set; }
         [ForeignKey("DepartmentId")]
         public Department? Parent { get; set; }
     }
