@@ -27,13 +27,19 @@ namespace DepartmentsApi.Repository
 
 		public async Task<bool> UpdateDepartments(List<Department> departments)
 		{
-            var ids = departments.Select(el => el.DepartmentId);
-            var departmentsForUpdate = await context.Departments.Where(el => ids.Contains(el.DepartmentId)).ToListAsync();
+            var departmentsForUpdate = await context.Departments
+                .Where(el => departments.Select(dp => dp.DepartmentId).Contains(el.DepartmentId))
+                .ToListAsync();
 
-            foreach (var department in departmentsForUpdate)
+            foreach (Department departmentForUpdate in departmentsForUpdate)
             {
-                department.ParentId = departments.FirstOrDefault(el => el.DepartmentId == department.DepartmentId).ParentId;
+                Department department = departments.First(el => el.DepartmentId == departmentForUpdate.DepartmentId);
+
+				if (department.ParentId != departmentForUpdate.ParentId) departmentForUpdate.ParentId = department.ParentId;
+                if (!String.IsNullOrWhiteSpace(department.Name) && department.Name != departmentForUpdate.Name) departmentForUpdate.Name = department.Name;
+				if (department.IsActive != departmentForUpdate.IsActive) departmentForUpdate.IsActive = department.IsActive;
             }
+
             return await context.SaveChangesAsync() > 0;
 		}
 	}
