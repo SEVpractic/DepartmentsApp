@@ -21,6 +21,8 @@ namespace DepartmentsApi.Configs
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddHostedService<DepartmentsStatusChecker>();
+
             services.AddScoped<IDepartmentRepo, DepartmentRepo>();
 
             services.AddScoped<IDepartmentsService, DepartmentsService>();
