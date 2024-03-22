@@ -4,6 +4,6 @@ namespace DepartmentsApi.Repository
 {
     public interface IDepartmentRepo
     {
-        Task<List<Department>> GetCountriesAsync();
+        Task<List<Department>> GetDepartmentsAsync();
     }
 }

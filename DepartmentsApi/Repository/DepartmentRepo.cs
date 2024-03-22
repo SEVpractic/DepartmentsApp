@@ -12,9 +12,11 @@ namespace DepartmentsApi.Repository
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<List<Department>> GetCountriesAsync()
+        public async Task<List<Department>> GetDepartmentsAsync()
         {
-            return await context.Departments.OrderBy(el => el.Name).ToListAsync();
+            return await context.Departments
+                .OrderBy(el => el.DepartmentId)
+                .ToListAsync();
         }
     }
 }

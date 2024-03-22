@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using DepartmentsApi.Repository;
+using DepartmentsApi.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace DepartmentsApi.Configs
 {
@@ -6,6 +9,24 @@ namespace DepartmentsApi.Configs
     {
         // TODO вынести строку подключения в конфиг
         public static string DBConnectionString = "Host=localhost;Port=5432;Database=DepartmentsBD;Username=Wisebrain;Password=iamroot";
+
+        /// <summary> Получение конфигурации сервисов </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection GetServicesConfig(this IServiceCollection services)
+        {
+            IMapper mapper = MappingConfig
+                .GetMapperConfiguraton()
+                .CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddScoped<IDepartmentRepo, DepartmentRepo>();
+
+            services.AddScoped<IDepartmentsService, DepartmentsService>();
+
+            return services;
+        }
 
         /// <summary> Получение конфигурации репозитория </summary>
         /// <param name="services"></param>
