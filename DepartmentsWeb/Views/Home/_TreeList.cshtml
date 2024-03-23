@@ -1,29 +1,28 @@
 ﻿@model DepartmentsWeb.Models.Dto.DepartmentsListDto
 
-<br />
-<br />
 @if (Model.Departments.Where(x => x.ParentId == Model.Seed).Any())
 {
-    <ul>
+    <ul class="list-inline list-group-numbered list-group-flush">
         @foreach (var node in Model.Departments)
         {
             if (node.ParentId ==  Model.Seed)
-            {
-                //@node.Name                 
+            {                 
                 @if (@node.IsActive)
                 {
-                    <span>@node.Name - Активно</span>
+                    <li class="list-group-item">@node.Name - Активно</li>
                 }
                 else
                 {
-                    <span>@node.Name  - Заблокировано</span>
+                    <li class="list-group-item"><mark class="alert-danger">@node.Name  - Заблокировано</mark></li>
                 }
                 DepartmentsWeb.Models.Dto.DepartmentsListDto inner = new DepartmentsWeb.Models.Dto.DepartmentsListDto
                 {
                     Seed = node.DepartmentId,
                     Departments = Model.Departments
                 };
-                @Html.Partial("_TreeList", inner)
+                <ul>
+                    @Html.Partial("_TreeList", inner)
+                </ul>
             }
         }
     </ul>
