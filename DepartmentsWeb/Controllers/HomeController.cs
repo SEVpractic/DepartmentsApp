@@ -20,13 +20,13 @@ namespace DepartmentsWeb.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			List<DepartmentDto> departments = await departmentsService.GetFromApiAsync();
-			return View(departments);
+			return View();
 		}
 
-		public IActionResult Privacy()
-		{
-			return View();
+		public async Task<IActionResult> Departments()
+        {
+            List<DepartmentDto> departments = await departmentsService.GetFromApiAsync();
+            return View(departments);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
