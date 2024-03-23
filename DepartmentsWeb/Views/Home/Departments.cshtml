@@ -11,11 +11,6 @@
         <div class="col">
             <h1 class="text-primary">Список подразделений</h1>
         </div>
-        <div class="col">
-            <div class="col text-end pt-1">
-                <a asp-action="" class="btn btn-outline-primary"><i class="fas fa-plus"> Синхронизировать</i></a>
-            </div>
-        </div>
     </div>
     <table class="table">
         <thead>
@@ -54,4 +49,17 @@
             }
         </tbody>
     </table>
+
+    <div class="col-sm-4">
+        <form asp-action="Synchronize" enctype="multipart/form-data">
+            <input type="hidden" name="Synchronize" />
+            @Html.AntiForgeryToken()
+            <p>
+                <input type="file" name="file" />
+            </p>
+            <div class="col text-end pt-1">
+                <button class="btn btn-outline-primary"><i class="fas fa-plus">Синхронизация данных</i></button>
+            </div>
+        </form>
+    </div>
 </div>

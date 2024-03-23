@@ -17,6 +17,7 @@ namespace DepartmentsWeb.Services
 			//ToDo вынести в конфиг
 			string Url = "http://localhost:5105/departments";
 
+			//ToDo вынести в отдельный класс
 			try
 			{
 				//Создаем клиент запроса к сервису
@@ -40,5 +41,17 @@ namespace DepartmentsWeb.Services
 				return new List<DepartmentDto>();
 			}			
 		}
-	}
+
+		public async Task<bool> SynchronizeDb(Stream fileStream)
+		{
+			using (StreamReader reader = new StreamReader(fileStream))
+			{ 
+				string json = reader.ReadToEnd();
+				List<DepartmentDto> departments = JsonConvert.DeserializeObject<List<DepartmentDto>>(json);
+				return true;
+			}
+
+			return false;
+		}
+    }
 }

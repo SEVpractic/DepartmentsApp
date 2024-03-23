@@ -2,7 +2,6 @@
 using DepartmentsWeb.Models.Dto;
 using DepartmentsWeb.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace DepartmentsWeb.Controllers
@@ -39,5 +38,19 @@ namespace DepartmentsWeb.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
-	}
+
+		public async Task<IActionResult> Synchronize()
+		{
+            if (Request.Form.Files.Count > 0 
+				&& Request.Form.Files[0] != null 
+				&& Request.Form.Files[0].ContentType == "text/plain")
+            {
+                var file = Request.Form.Files[0];
+				await departmentsService.SynchronizeDb(file.OpenReadStream());
+            }
+
+            return RedirectToAction("Index", "Home");
+		}
+
+    }
 }
