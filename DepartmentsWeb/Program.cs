@@ -1,3 +1,5 @@
+using DepartmentsWeb.Configs;
+
 namespace DepartmentsWeb
 {
 	public class Program
@@ -7,6 +9,10 @@ namespace DepartmentsWeb
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
+			builder.Services.AddHttpClient();
+
+			builder.Services.GetServicesConfig();
+
 			builder.Services.AddControllersWithViews();
 
 			var app = builder.Build();

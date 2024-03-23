@@ -1,5 +1,8 @@
 ﻿using DepartmentsWeb.Models;
+using DepartmentsWeb.Models.Dto;
+using DepartmentsWeb.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace DepartmentsWeb.Controllers
@@ -7,14 +10,17 @@ namespace DepartmentsWeb.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly IDepartmentsService departmentsService;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, IDepartmentsService departmentsService)
 		{
-			_logger = logger;
+			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.departmentsService = departmentsService ?? throw new ArgumentNullException(nameof(departmentsService));
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
+			List<DepartmentDto> departments = await departmentsService.GetFromApiAsync();
 			return View();
 		}
 
