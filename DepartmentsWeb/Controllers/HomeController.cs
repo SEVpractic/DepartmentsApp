@@ -20,7 +20,12 @@ namespace DepartmentsWeb.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			return View();
+			DepartmentsListDto departmentsListDto = new DepartmentsListDto()
+			{
+				Departments = await departmentsService.GetFromApiAsync()
+			};
+
+            return View(departmentsListDto);
 		}
 
 		public async Task<IActionResult> Departments()

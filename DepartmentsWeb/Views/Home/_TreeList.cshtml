@@ -1,0 +1,22 @@
+﻿@model DepartmentsWeb.Models.Dto.DepartmentsListDto
+
+<br />
+<br />
+@if (Model.Departments.Where(x => x.ParentId == Model.Seed).Any())
+{
+    <ul>
+        @foreach (var node in Model.Departments)
+        {
+            if (node.ParentId ==  Model.Seed)
+            {
+                @node.Name
+                DepartmentsWeb.Models.Dto.DepartmentsListDto inner = new DepartmentsWeb.Models.Dto.DepartmentsListDto
+                        {
+                            Seed = node.DepartmentId,
+                            Departments = Model.Departments
+                        };
+                @Html.Partial("_TreeList", inner)
+            }
+        }
+    </ul>
+}
