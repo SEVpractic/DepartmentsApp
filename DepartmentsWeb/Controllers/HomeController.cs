@@ -21,7 +21,7 @@ namespace DepartmentsWeb.Controllers
 		public async Task<IActionResult> Index()
 		{
 			List<DepartmentDto> departments = await departmentsService.GetFromApiAsync();
-			return View();
+			return View(departments);
 		}
 
 		public IActionResult Privacy()
