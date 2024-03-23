@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DepartmentsApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240322110328_InitialMigration")]
+    [Migration("20240323142005_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -41,8 +41,8 @@ namespace DepartmentsApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("integer");
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("DepartmentId");
 
@@ -50,42 +50,6 @@ namespace DepartmentsApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            DepartmentId = 1L,
-                            IsActive = true,
-                            Name = "Main Department"
-                        },
-                        new
-                        {
-                            DepartmentId = 2L,
-                            IsActive = true,
-                            Name = "Department11",
-                            ParentId = 1
-                        },
-                        new
-                        {
-                            DepartmentId = 3L,
-                            IsActive = true,
-                            Name = "Department12",
-                            ParentId = 1
-                        },
-                        new
-                        {
-                            DepartmentId = 4L,
-                            IsActive = true,
-                            Name = "Department21",
-                            ParentId = 2
-                        },
-                        new
-                        {
-                            DepartmentId = 5L,
-                            IsActive = true,
-                            Name = "Department22",
-                            ParentId = 2
-                        });
                 });
 
             modelBuilder.Entity("DepartmentsApi.Models.Entities.Department", b =>

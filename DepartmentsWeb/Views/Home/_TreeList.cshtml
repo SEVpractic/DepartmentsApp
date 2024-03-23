@@ -9,12 +9,20 @@
         {
             if (node.ParentId ==  Model.Seed)
             {
-                @node.Name
+                //@node.Name                 
+                @if (@node.IsActive)
+                {
+                    <span>@node.Name - Активно</span>
+                }
+                else
+                {
+                    <span>@node.Name  - Заблокировано</span>
+                }
                 DepartmentsWeb.Models.Dto.DepartmentsListDto inner = new DepartmentsWeb.Models.Dto.DepartmentsListDto
-                        {
-                            Seed = node.DepartmentId,
-                            Departments = Model.Departments
-                        };
+                {
+                    Seed = node.DepartmentId,
+                    Departments = Model.Departments
+                };
                 @Html.Partial("_TreeList", inner)
             }
         }

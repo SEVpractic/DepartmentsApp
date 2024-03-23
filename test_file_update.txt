@@ -1,0 +1,46 @@
+[
+    {
+      "departmentId": 1,
+      "name": "Main Department",
+      "isActive": true,
+      "parentId": null
+    },
+    {
+      "departmentId": 2,
+      "name": "Department11",
+      "isActive": true,
+      "parentId": 1
+    },
+    {
+      "departmentId": 3,
+      "name": "Department12",
+      "isActive": true,
+      "parentId": 1
+    },
+    {
+      "departmentId": 4,
+      "name": "Department21",
+      "isActive": false,
+      "parentId": 2
+    },
+    {
+      "departmentId": 5,
+      "name": "Department22",
+      "isActive": true,
+      "parentId": 2
+    },
+    {
+      "name": "TestDepartment",
+      "isActive": false
+    },
+    {
+      "name": "Department32",
+      "isActive": true,
+      "parentId": 3
+    },
+    {
+      "name": "Department31",
+      "isActive": false,
+      "parentId": 3
+    }
+  ]

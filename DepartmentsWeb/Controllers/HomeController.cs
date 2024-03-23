@@ -3,6 +3,7 @@ using DepartmentsWeb.Models.Dto;
 using DepartmentsWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace DepartmentsWeb.Controllers
 {
@@ -17,19 +18,42 @@ namespace DepartmentsWeb.Controllers
 			this.departmentsService = departmentsService ?? throw new ArgumentNullException(nameof(departmentsService));
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(string? searchString)
 		{
 			DepartmentsListDto departmentsListDto = new DepartmentsListDto()
 			{
 				Departments = await departmentsService.GetFromApiAsync()
 			};
 
+			if(!String.IsNullOrEmpty(searchString))
+			{
+				departmentsListDto.Departments = departmentsListDto.Departments
+                    .Where(el => Regex.IsMatch(
+						el.Name, 
+						Regex.Escape(searchString),
+						RegexOptions.IgnoreCase)
+					)
+					.ToList();
+			}
+
             return View(departmentsListDto);
 		}
 
-		public async Task<IActionResult> Departments()
+		public async Task<IActionResult> Departments(string? searchString)
         {
             List<DepartmentDto> departments = await departmentsService.GetFromApiAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                departments = departments
+                    .Where(el => Regex.IsMatch(
+                        el.Name,
+                        Regex.Escape(searchString),
+                        RegexOptions.IgnoreCase)
+                    )
+                    .ToList();
+            }
+
             return View(departments);
 		}
 

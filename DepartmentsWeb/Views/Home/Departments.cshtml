@@ -7,58 +7,62 @@
 <br />
 <br />
 <div class="container p-4 border">
-    <div class="row pb-2">
+    <div class="row pb-2 align-items-center">
         <div class="col">
-            <h1 class="text-primary">Список подразделений</h1>
+            <h2 class="text-primary">Список подразделений</h2>
+        </div>
+        <div class="col">
+            <form asp-action="Index" class="row g-3">
+                <div class="col-auto">
+                    <label for="searchFilter" class="visually-hidden">Наименование</label>
+                    <input type="text" class="form-control" id="searchFilter" name="SearchString" placeholder="Наименование">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-primary">Поиск</button>
+                </div>
+            </form>
         </div>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Наименование
-                </th>
-                <th>
-                    Статус
-                </th>
-                <th>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    
+    <div>
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @item.Name
-                    </td>
-                    <td>
-                        @if (@item.IsActive)
-                        {
-                            <div>
-                                Активно
-                            </div>
-                        } else
-                        {
-                            <div>
-                                Заблокировано
-                            </div>
-                        }
-                    </td>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Статус</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.IsActive)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>Активно</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="table-danger">
+                            <td>@item.Name</td>
+                            <td>Заблокировано</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 
-    <div class="col-sm-4">
+    <div>
         <form asp-action="Synchronize" enctype="multipart/form-data">
             <input type="hidden" name="Synchronize" />
             @Html.AntiForgeryToken()
-            <p>
-                <input type="file" name="file" />
-            </p>
-            <div class="col text-end pt-1">
-                <button class="btn btn-outline-primary"><i class="fas fa-plus">Синхронизация данных</i></button>
+            <div class="mb-3">
+                <input class="form-control" type="file" id="formFile" name="file">
+            </div>
+            <div class="col pt-1">
+                <button class="btn btn-outline-primary"><i class="fas">Синхронизация данных</i></button>
             </div>
         </form>
     </div>

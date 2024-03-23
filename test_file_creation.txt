@@ -1,0 +1,22 @@
+[
+    {
+      "name": "Main Department",
+      "isActive": true
+    },
+    {
+      "name": "Department11",
+      "isActive": true
+    },
+    {
+      "name": "Department12",
+      "isActive": true
+    },
+    {
+      "name": "Department21",
+      "isActive": false
+    },
+    {
+      "name": "Department22",
+      "isActive": true
+    }
+  ]
