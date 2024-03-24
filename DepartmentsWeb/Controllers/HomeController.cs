@@ -42,9 +42,11 @@ namespace DepartmentsWeb.Controllers
                         RegexOptions.IgnoreCase)
                     );
 
-                departmentsListDto.Seed = searchingEl != null ? searchingEl.ParentId : null;
-
-                departmentsListDto.Departments.RemoveAll(el => el.ParentId == searchingEl.ParentId && el.DepartmentId != searchingEl.DepartmentId);             
+                if (searchingEl != null)
+                {
+                    departmentsListDto.Seed = searchingEl.ParentId;
+                    departmentsListDto.Departments.RemoveAll(el => el.ParentId == searchingEl.ParentId && el.DepartmentId != searchingEl.DepartmentId);
+                }                             
             }
 
             return View(departmentsListDto);
@@ -61,13 +63,15 @@ namespace DepartmentsWeb.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                departments = departments
+                var serchingDepartments = departments
                     .Where(el => Regex.IsMatch(
                         el.Name,
                         Regex.Escape(searchString),
                         RegexOptions.IgnoreCase)
                     )
                     .ToList();
+
+                departments = serchingDepartments.Count > 0 ? serchingDepartments : departments;
             }
 
             return View(departments);
