@@ -1,4 +1,5 @@
 using DepartmentsWeb.Configs;
+using Serilog;
 
 namespace DepartmentsWeb
 {
@@ -6,10 +7,17 @@ namespace DepartmentsWeb
 	{
 		public static void Main(string[] args)
 		{
-			var builder = WebApplication.CreateBuilder(args);
+            Log.Logger = new LoggerConfiguration()
+				.MinimumLevel.Information()
+				.WriteTo.Console()
+				.WriteTo.File("logs/DepartmentsWebLogs.txt", rollingInterval: RollingInterval.Month)
+				.CreateLogger();
 
-			// Add services to the container.
-			builder.Services.AddHttpClient();
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            builder.Host.UseSerilog();
+            builder.Services.AddHttpClient();
 
 			builder.Services.GetServicesConfig();
 

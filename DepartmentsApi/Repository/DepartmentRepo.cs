@@ -36,7 +36,6 @@ namespace DepartmentsApi.Repository
                 Department department = departments.First(el => el.DepartmentId == departmentForUpdate.DepartmentId);
 
 				if (department.ParentId != departmentForUpdate.ParentId) departmentForUpdate.ParentId = department.ParentId;
-                if (!String.IsNullOrWhiteSpace(department.Name) && department.Name != departmentForUpdate.Name) departmentForUpdate.Name = department.Name;
 				if (department.IsActive != departmentForUpdate.IsActive) departmentForUpdate.IsActive = department.IsActive;
             }
 

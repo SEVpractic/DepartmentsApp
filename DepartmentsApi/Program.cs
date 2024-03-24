@@ -1,9 +1,16 @@
 using DepartmentsApi.Configs;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/DepartmentsApiLogs.txt", rollingInterval: RollingInterval.Month)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Host.UseSerilog();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 
