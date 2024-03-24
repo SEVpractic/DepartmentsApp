@@ -37,12 +37,10 @@ namespace DepartmentsApi.Services
                     List<Department> departments = await departmentRepo.GetDepartmentsAsync();
                     logger.LogInformation("Получена коллекция departments из БД");
 
-					//ToDo вынести в конфиг
 					memoryCache.Set("departments", departments, TimeSpan.FromSeconds(7));
                     logger.LogInformation("Обновлена коллекция departments в кэш");
                 }
-                
-                //ToDo вынести в конфиг
+
                 await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken);
             }
         }

@@ -15,6 +15,8 @@ namespace DepartmentsWeb
 
             var builder = WebApplication.CreateBuilder(args);
 
+            SD.DepartmentsApiUrl = builder.Configuration["ServiceUrls:DepartmentsAPI"];
+
             // Add services to the container.
             builder.Host.UseSerilog();
             builder.Services.AddHttpClient();

@@ -21,7 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.GetReposConfig();
+builder.Services.GetReposConfig(builder.Configuration.GetConnectionString("DBConnectionString"));
 builder.Services.GetServicesConfig();
 
 var app = builder.Build();

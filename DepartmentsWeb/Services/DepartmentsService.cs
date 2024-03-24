@@ -1,4 +1,5 @@
-﻿using DepartmentsWeb.Models.Dto;
+﻿using DepartmentsWeb.Configs;
+using DepartmentsWeb.Models.Dto;
 using Newtonsoft.Json;
 using System;
 using System.Text;
@@ -12,9 +13,6 @@ namespace DepartmentsWeb.Services
 	{
 		private readonly IHttpClientFactory clientFactory;
         private readonly ILogger<DepartmentsService> logger;
-
-        //ToDo вынести в конфиг
-        private string Url = "http://localhost:5105/departments";
 
         public DepartmentsService(IHttpClientFactory clientFactory, ILogger<DepartmentsService> logger)
 		{
@@ -101,7 +99,7 @@ namespace DepartmentsWeb.Services
                 HttpRequestMessage message = new HttpRequestMessage();
 
                 message.Headers.Add("Accept", "application/json");
-                message.RequestUri = new Uri(Url);
+                message.RequestUri = new Uri(SD.DepartmentsApiUrl);
                 message.Method = method;
                 if (data != null)
                 {

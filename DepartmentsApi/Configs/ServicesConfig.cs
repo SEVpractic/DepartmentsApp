@@ -7,9 +7,6 @@ namespace DepartmentsApi.Configs
 {
     public static class ServicesConfig
     {
-        // TODO вынести строку подключения в конфиг
-        public static string DBConnectionString = "Host=localhost;Port=5432;Database=DepartmentsBD;Username=Wisebrain;Password=iamroot";
-
         /// <summary> Получение конфигурации сервисов </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -33,7 +30,7 @@ namespace DepartmentsApi.Configs
         /// <summary> Получение конфигурации репозитория </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection GetReposConfig(this IServiceCollection services)
+        public static IServiceCollection GetReposConfig(this IServiceCollection services, string DBConnectionString)
         {
             services.AddDbContext<RepositoryContext>(
                     DbContextOptions => {
