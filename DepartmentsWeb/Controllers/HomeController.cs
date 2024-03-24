@@ -35,14 +35,17 @@ namespace DepartmentsWeb.Controllers
 
 			if(!String.IsNullOrEmpty(searchString))
 			{
-				departmentsListDto.Departments = departmentsListDto.Departments
-                    .Where(el => Regex.IsMatch(
-						el.Name, 
-						Regex.Escape(searchString),
-						RegexOptions.IgnoreCase)
-					)
-					.ToList();
-			}
+                var searchingEl = departmentsListDto.Departments
+                    .FirstOrDefault(el => Regex.IsMatch(
+                        el.Name,
+                        Regex.Escape(searchString),
+                        RegexOptions.IgnoreCase)
+                    );
+
+                departmentsListDto.Seed = searchingEl != null ? searchingEl.ParentId : null;
+
+                departmentsListDto.Departments.RemoveAll(el => el.ParentId == searchingEl.ParentId && el.DepartmentId != searchingEl.DepartmentId);             
+            }
 
             return View(departmentsListDto);
 		}

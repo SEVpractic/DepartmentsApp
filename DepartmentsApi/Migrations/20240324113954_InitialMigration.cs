@@ -3,6 +3,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DepartmentsApi.Migrations
 {
     /// <inheritdoc />
@@ -24,6 +26,18 @@ namespace DepartmentsApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.DepartmentId);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "DepartmentId", "IsActive", "Name", "ParentId" },
+                values: new object[,]
+                {
+                    { 1L, true, "Главное Управление", null },
+                    { 2L, true, "Депортамент времени", 1L },
+                    { 3L, false, "Подразделение искажения", 1L },
+                    { 4L, true, "Управление правды", 2L },
+                    { 5L, true, "Бюро наблюдений", 2L }
                 });
 
             migrationBuilder.CreateIndex(

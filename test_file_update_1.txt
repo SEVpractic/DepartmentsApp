@@ -1,0 +1,14 @@
+[
+    {
+      "departmentId": 6,
+      "name": "Отдел продаж",
+      "isActive": true,
+      "parentId": 9
+    },
+    {
+      "departmentId": 9,
+      "name": "Резервное Управление",
+      "isActive": true,
+      "parentId": null
+    }  
+]

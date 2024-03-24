@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DepartmentsApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240323142005_InitialMigration")]
+    [Migration("20240324113954_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -50,6 +50,42 @@ namespace DepartmentsApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            DepartmentId = 1L,
+                            IsActive = true,
+                            Name = "Главное Управление"
+                        },
+                        new
+                        {
+                            DepartmentId = 2L,
+                            IsActive = true,
+                            Name = "Депортамент времени",
+                            ParentId = 1L
+                        },
+                        new
+                        {
+                            DepartmentId = 3L,
+                            IsActive = false,
+                            Name = "Подразделение искажения",
+                            ParentId = 1L
+                        },
+                        new
+                        {
+                            DepartmentId = 4L,
+                            IsActive = true,
+                            Name = "Управление правды",
+                            ParentId = 2L
+                        },
+                        new
+                        {
+                            DepartmentId = 5L,
+                            IsActive = true,
+                            Name = "Бюро наблюдений",
+                            ParentId = 2L
+                        });
                 });
 
             modelBuilder.Entity("DepartmentsApi.Models.Entities.Department", b =>

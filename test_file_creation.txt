@@ -1,22 +1,15 @@
 [
     {
-      "name": "Main Department",
-      "isActive": true
+      "name": "Отдел продаж",
+      "isActive": true,
+      "parentId": 1
     },
     {
-      "name": "Department11",
-      "isActive": true
+      "name": "бюро закупок",
+      "isActive": true,
     },
     {
-      "name": "Department12",
-      "isActive": true
-    },
-    {
-      "name": "Department21",
-      "isActive": false
-    },
-    {
-      "name": "Department22",
-      "isActive": true
-    }
-  ]
+      "name": "бюро цен",
+      "isActive": false,    
+     },
+]
