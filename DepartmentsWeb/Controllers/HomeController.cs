@@ -7,18 +7,26 @@ using System.Text.RegularExpressions;
 
 namespace DepartmentsWeb.Controllers
 {
-	public class HomeController : Controller
+    /// <summary>
+    /// Контоллер работы с информацией о подразделениях
+    /// </summary>
+    public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
+		private readonly ILogger<HomeController> logger;
 		private readonly IDepartmentsService departmentsService;
 
 		public HomeController(ILogger<HomeController> logger, IDepartmentsService departmentsService)
 		{
-			_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.departmentsService = departmentsService ?? throw new ArgumentNullException(nameof(departmentsService));
 		}
 
-		public async Task<IActionResult> Index(string? searchString)
+        /// <summary>
+        /// Отображение инфомации о подразделениях в виде дерева
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Index(string? searchString)
 		{
 			DepartmentsListDto departmentsListDto = new DepartmentsListDto()
 			{
@@ -39,7 +47,12 @@ namespace DepartmentsWeb.Controllers
             return View(departmentsListDto);
 		}
 
-		public async Task<IActionResult> Departments(string? searchString)
+        /// <summary>
+        /// Отображение инфомации о подразделениях в виде списка
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Departments(string? searchString)
         {
             List<DepartmentDto> departments = await departmentsService.GetFromApiAsync();
 
@@ -63,6 +76,11 @@ namespace DepartmentsWeb.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
+
+        /// <summary>
+        /// Создание или обновление инфомации о подразделениях
+        /// </summary>
+        /// <returns></returns>
 		public async Task<IActionResult> Synchronize()
 		{
             if (Request.Form.Files.Count > 0 

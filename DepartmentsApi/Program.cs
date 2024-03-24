@@ -1,4 +1,5 @@
 using DepartmentsApi.Configs;
+using DepartmentsApi.Services;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,6 +32,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthorization();
 

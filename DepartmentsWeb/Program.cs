@@ -22,6 +22,8 @@ namespace DepartmentsWeb
 			builder.Services.GetServicesConfig();
 
 			builder.Services.AddControllersWithViews();
+			
+			
 
 			var app = builder.Build();
 
